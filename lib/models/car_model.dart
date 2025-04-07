@@ -25,5 +25,14 @@ class CarModel {
       year: map["year"],
     );
   }
-  
+
+  Map toJson(CarModel car) {
+    return {
+      "name": car.name,
+      "price": car.price,
+      "speed": car.speed,
+      "image": car.image,
+      "year": car.year,
+    };
+  }
 }

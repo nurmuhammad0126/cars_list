@@ -1,6 +1,8 @@
 import 'package:cars_list/controller/car_controller.dart';
 import 'package:cars_list/models/car_model.dart';
 import 'package:cars_list/views/widgets/show_dilalog_for_add.dart';
+import 'package:cars_list/views/widgets/show_dilalog_for_delete.dart';
+import 'package:cars_list/views/widgets/show_dilalog_for_edit.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -91,11 +93,41 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        final result = await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return ShowDilalogForDelete(
+                              carController: carController,
+                              id: cars[index].id,
+                            );
+                          },
+                        );
+                        if (result == true) {
+                          cars = await carController.getCarList();
+
+                          setState(() {});
+                        }
+                      },
                       icon: Icon(Icons.delete, color: Colors.red),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        final result = await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return ShowDialogForEdit(
+                              carController: carController,
+                              carModel: cars[index],
+                            );
+                          },
+                        );
+                        if (result == true) {
+                          cars = await carController.getCarList();
+
+                          setState(() {});
+                        }
+                      },
                       icon: Icon(Icons.edit, color: Colors.blue),
                     ),
                   ],

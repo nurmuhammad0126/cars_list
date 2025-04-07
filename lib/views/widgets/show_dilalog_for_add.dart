@@ -12,6 +12,7 @@ class ShowDialogForAdd extends StatefulWidget {
 }
 
 class _ShowDialogForAddState extends State<ShowDialogForAdd> {
+  bool isLoading = false;
   TextEditingController textControllerName = TextEditingController();
   TextEditingController textControllerImage = TextEditingController();
   TextEditingController textControllerPrice = TextEditingController();
@@ -126,8 +127,15 @@ class _ShowDialogForAddState extends State<ShowDialogForAdd> {
                   child: Icon(Icons.close, color: Colors.red, size: 38),
                 ),
               ),
+              
+                    isLoading
+                        ? CircularProgressIndicator()
+                        : 
               GestureDetector(
-                onTap: ()async {
+                onTap: () async {
+                  setState(() {
+                    isLoading = true;
+                  });
                   if (chekTextController()) {
                     await widget.carController.addTodo(
                       image: textControllerImage.text,
@@ -137,8 +145,8 @@ class _ShowDialogForAddState extends State<ShowDialogForAdd> {
                       year: int.parse(textControllerYear.text),
                     );
                     setState(() {
-                    Navigator.pop(context,true);
-
+                      isLoading = false;
+                      Navigator.pop(context, true);
                     });
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -147,11 +155,15 @@ class _ShowDialogForAddState extends State<ShowDialogForAdd> {
                   }
                 },
 
-                child: CircleAvatar(
-                  radius: 38,
-                  backgroundColor: Colors.grey.withOpacity(0.2),
-                  child: Icon(Icons.check, color: Colors.green, size: 38),
-                ),
+                child:CircleAvatar(
+                          radius: 38,
+                          backgroundColor: Colors.grey.withOpacity(0.2),
+                          child: Icon(
+                            Icons.check,
+                            color: Colors.green,
+                            size: 38,
+                          ),
+                        ),
               ),
             ],
           ),

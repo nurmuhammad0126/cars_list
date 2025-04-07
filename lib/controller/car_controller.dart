@@ -46,18 +46,32 @@ class CarController {
     cars.add(CarModel.fromJson(newCar));
   }
 
-  Future<void> editTodo({required String id, required String newTitle}) async {
-    final url = Uri.parse("$_urlBase/todos/$id.json");
-    final updatingTodo = {"title": newTitle};
-    final response = await http.patch(url, body: jsonEncode(updatingTodo));
-
-    print(response.body);
-  }
-
   Future<void> deleteTodo({required String id}) async {
-    final url = Uri.parse("$_urlBase/todos/$id.json");
-    final response = await http.delete(url);
+    final url = Uri.parse("$_urlBase/cars/$id.json");
+    await http.delete(url);
 
-    print(response.body);
   }
+
+  Future<void> editCar({
+    required String image,
+    required String name,
+    required double price,
+    required int speed,
+    required int year,
+    required final id,
+  }) async {
+
+
+    final date = jsonEncode({
+      "image":image,
+    "name":name,
+   "price":price,
+    "speed":speed,
+    "year":year,
+    });
+    final url = Uri.parse("$_urlBase/cars/$id.json");
+    await http.patch(url,body: date);
+
+  }
+  
 }
